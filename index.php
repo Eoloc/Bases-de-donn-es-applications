@@ -1,6 +1,8 @@
 <?php
 
+use bdd\models\company;
 use bdd\models\game;
+use bdd\models\platform;
 use Illuminate\Database\Capsule\Manager as DB;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -10,6 +12,7 @@ $db->addConnection(parse_ini_file('src/conf/conf.ini'));
 $db->setAsGlobal();
 $db->bootEloquent();
 ini_set('memory_limit', '-1');
+
 $s="\n<br>";
 
 //Q1
@@ -24,7 +27,7 @@ foreach ($res as $n){
 //Q2
 /*
 echo "Liste des companies résidant au japon:$s$s";
-foreach (company::pays('japan') as $n){
+foreach (company::where('location_country', 'like', 'japan')->get() as $n){
     echo "$n->name$s";
 }
 */
@@ -46,6 +49,7 @@ foreach (json_decode(game::limit(412)->offset(21172)->get()) as $n){
 */
 
 //Q5
+/*
 echo "lister les jeux, afficher leur nom et deck, en paginant (taille des pages : 500):$s$s";
 $i=0; $p=1;
 foreach (json_decode(game::get()) as $n){
@@ -58,3 +62,4 @@ foreach (json_decode(game::get()) as $n){
     }
 }
 echo $p;
+*/
