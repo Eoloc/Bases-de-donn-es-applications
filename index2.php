@@ -36,6 +36,7 @@ $s="\n<br>";
 
 
 //Q3
+/*
 echo "Compagnie dont le nom contient Sony avec leurs jeux\n<br>\n<br>";
 foreach (company::where('name','LIKE', '%Sony%')->get() as $company) {
     echo $company->name . $s;
@@ -45,16 +46,14 @@ foreach (company::where('name','LIKE', '%Sony%')->get() as $company) {
     }
     echo $s;
 }
-
+*/
 
 //Q5
-echo "Jeux dont le nom débute par Mario et ayant plus de 3 personnages \n<br>\n<br>";
-foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
-    echo $game->name . $s;
-    foreach ($game->characters as $ra) {
-            echo '--- '.$ra->name . $s ;
+foreach (Game::where('name', 'like', 'Mario%')->has('characters', '>', 3)->get() as $game) {
+    echo $game->name . ' : ' . $game->id . "\n";
+    foreach ($game->characters as $ch) {
+        echo '--- '.$ch->id . '. ' . $ch->name . ' : '.$ch->deck . "\n" ;
     }
-    echo $s;
 }
 
 //Q6
