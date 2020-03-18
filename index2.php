@@ -48,13 +48,23 @@ foreach (Game::select('id')->get() as $game) {
 MARCHE PAS
 */
 
-//Q6
-echo "Jeux dont le nom débute par Mario et dont le rating est superieur à 3 \n<br>\n<br>";
+//Q5
+echo "Jeux dont le nom débute par Mario et ayant plus de 3 personnages \n<br>\n<br>";
 foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
-    foreach ($game->original_game_ratings as $ra) {
-        if(strpos($ra->name,"3+")!==false){
-            echo $game->name . $s;
-            echo '--- '.$ra->name . $s.$s ;
-        }
+    echo $game->name . $s;
+    foreach ($game->characters as $ra) {
+            echo '--- '.$ra->name . $s ;
     }
+    echo $s;
 }
+
+//Q6
+// echo "Jeux dont le nom débute par Mario et dont le rating initial contient '3+' \n<br>\n<br>";
+// foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
+//     foreach ($game->original_game_ratings as $ra) {
+//         if(strpos($ra->name,"3+")!==false){
+//             echo $game->name . $s;
+//             echo '--- '.$ra->name . $s.$s ;
+//         }
+//     }
+// }
