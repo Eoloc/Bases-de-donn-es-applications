@@ -18,12 +18,11 @@ $s="\n<br>";
 //Q1
 /*
 echo "Liste de jeu contenant le nom mario$s$s";
-$g = new game();
-$res = $g->games('mario');
-foreach ($res as $n){
+foreach (game::where('name', 'like', "%mario%")->get() as $n){
     echo "$n->name$s";
 }
 */
+
 //Q2
 /*
 echo "Liste des companies résidant au japon:$s$s";
