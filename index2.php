@@ -46,7 +46,15 @@ foreach (company::where('name','LIKE', '%Sony%')->get() as $company) {
     }
     echo $s;
 }
-*/
+
+//Q4
+echo "le rating initial (indiquer le rating board) des jeux  dont le nom contient Mario";
+foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
+echo '---- '. $game->name . ' : ' . $game->id . $s;
+        foreach ($game->original_game_ratings as $rating) {
+            echo '####### '. $rating->name . ' ('. $rating->rating_board->name . ')'.$s;
+        }
+    }
 
 //Q5
 foreach (Game::where('name', 'like', 'Mario%')->has('characters', '>', 3)->get() as $game) {
