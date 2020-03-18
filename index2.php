@@ -2,6 +2,7 @@
 
 use bdd\models\character;
 use bdd\models\game;
+use bdd\models\company;
 use Illuminate\Database\Capsule\Manager as DB;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -35,18 +36,16 @@ $s="\n<br>";
 
 
 //Q3
-/*
-echo "Jeux developpes par une compagnie dont le nom contient Sony<br>";
-foreach (Game::select('id')->get() as $game) {
-    echo $game->name . $s;
-    foreach ($game->developers as $dev) {
-        if($dev->name == "Sony")
-        echo '--- '.$dev->id . ' : ' . $dev->name  . $s ;
+echo "Compagnie dont le nom contient Sony avec leurs jeux\n<br>\n<br>";
+foreach (company::where('name','LIKE', '%Sony%')->get() as $company) {
+    echo $company->name . $s;
+    foreach ($company->developpedBy as $game) {
+        
+        echo '--- '. $game->id . '. ' . $game->name . $s ;
     }
     echo $s;
 }
-MARCHE PAS
-*/
+
 
 //Q5
 echo "Jeux dont le nom débute par Mario et ayant plus de 3 personnages \n<br>\n<br>";
