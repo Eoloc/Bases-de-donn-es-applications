@@ -14,15 +14,23 @@ ini_set('memory_limit', '-1');
 $s="\n<br>";
 
 //Q1
-/*
-echo "Noms et decks des personnages du jeu 12342 <br>";
-foreach (Game::where('id', '=', '12342')->get() as $game) {
+// echo "Noms et decks des personnages du jeu 12342 <br>";
+// foreach (Game::where('id', '=', '12342')->get() as $game) {
+//     echo $game->name . $s;
+//     foreach ($game->characters as $ch) {
+//         echo '--- '.$ch->id . '. ' . $ch->name . ' : '.$ch->deck . $s ;
+//     }
+// }
+
+//Q2
+echo "Personnages des jeux dont le nom (du jeu) débute par Mario : <br>";
+foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
     echo $game->name . $s;
     foreach ($game->characters as $ch) {
         echo '--- '.$ch->id . '. ' . $ch->name . ' : '.$ch->deck . $s ;
     }
 }
-*/
+
 
 //Q3
 /*
