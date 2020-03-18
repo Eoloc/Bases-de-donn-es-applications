@@ -53,7 +53,8 @@ echo "Jeux dont le nom débute par Mario et dont le rating est superieur à 3 \n
 foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
     echo $game->name . $s;
     foreach ($game->original_game_ratings as $ra) {
-        echo '--- '.$ra->game_id . $s ;
+        if($ra->name)
+            echo '--- '.$ra->rating_board_id . $s ;
     }
     echo $s;
 }
