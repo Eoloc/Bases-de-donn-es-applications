@@ -24,7 +24,7 @@ $s="\n<br>";
 //     echo $s;
 // }
 
-// //Q2
+//Q2
 // echo "Personnages des jeux dont le nom (du jeu) débute par Mario : \n<br>\n<br>";
 // foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
 //     echo $game->name . $s;
@@ -47,3 +47,13 @@ foreach (company::where('name','LIKE', '%Sony%')->get() as $company) {
 }
 
 
+//Q6
+echo "Jeux dont le nom débute par Mario et dont le rating est superieur à 3 \n<br>\n<br>";
+foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
+    foreach ($game->original_game_ratings as $ra) {
+        if(strpos($ra->name,"3+")!==false){
+            echo $game->name . $s;
+            echo '--- '.$ra->name . $s.$s ;
+        }
+    }
+}
