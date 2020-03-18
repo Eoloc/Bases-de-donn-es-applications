@@ -35,27 +35,27 @@ $s="\n<br>";
 // }
 
 
-//Q3
-echo "Compagnie dont le nom contient Sony avec leurs jeux\n<br>\n<br>";
-foreach (company::where('name','LIKE', '%Sony%')->get() as $company) {
-    echo $company->name . $s;
-    foreach ($company->developpedBy as $game) {
+// //Q3
+// echo "Compagnie dont le nom contient Sony avec leurs jeux\n<br>\n<br>";
+// foreach (company::where('name','LIKE', '%Sony%')->get() as $company) {
+//     echo $company->name . $s;
+//     foreach ($company->developpedBy as $game) {
         
-        echo '--- '. $game->id . '. ' . $game->name . $s ;
-    }
-    echo $s;
-}
+//         echo '--- '. $game->id . '. ' . $game->name . $s ;
+//     }
+//     echo $s;
+// }
 
 
 //Q5
-echo "Jeux dont le nom débute par Mario et ayant plus de 3 personnages \n<br>\n<br>";
-foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
-    echo $game->name . $s;
-    foreach ($game->characters as $ra) {
-            echo '--- '.$ra->name . $s ;
-    }
-    echo $s;
-}
+// echo "Jeux dont le nom débute par Mario et ayant plus de 3 personnages \n<br>\n<br>";
+// foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
+//     echo $game->name . $s;
+//     foreach ($game->characters as $ra) {
+//             echo '--- '.$ra->name . $s ;
+//     }
+//     echo $s;
+// }
 
 //Q6
 // echo "Jeux dont le nom débute par Mario et dont le rating initial contient '3+' \n<br>\n<br>";
@@ -67,3 +67,20 @@ foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
 //         }
 //     }
 // }
+
+//Q7
+echo "Jeux dont le nom débute par Mario et publié par une compagnie dont le nom contient \"Inc\" dont le rating initial contient '3+' \n<br>\n<br>";
+
+foreach (company::where('name','LIKE', '%Inc%')->get() as $company) {
+    foreach ($company->developpedBy as $game) {
+        if(strpos($game->name, "Mario") !== false){
+            
+            foreach ($game->original_game_ratings as $ra) {
+                if(strpos($ra->name,"3+")!==false){
+                    echo $company->name . $s;
+                    echo '--- '.$game->name . ' : ' . $ra->name . $s . $s;
+                }; 
+            }
+        }
+    }
+}
