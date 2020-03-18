@@ -1,6 +1,7 @@
 <?php
 
 use bdd\models\character;
+use bdd\models\game;
 use Illuminate\Database\Capsule\Manager as DB;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -14,11 +15,9 @@ $s="\n<br>";
 
 //Q1
 echo "Noms et decks des personnages du jeu 12342 <br>";
-$t = character::find(1);
-var_dump($t);
-
-/*
-foreach ($table as $n){
-    echo "$n->name$s";
+foreach (Game::where('id', '=', '12342')->get() as $game) {
+    echo $game->name . $s;
+    foreach ($game->characters as $ch) {
+        echo '--- '.$ch->id . '. ' . $ch->name . ' : '.$ch->deck . $s ;
+    }
 }
-*/
