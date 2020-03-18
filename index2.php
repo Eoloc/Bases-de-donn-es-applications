@@ -51,10 +51,10 @@ MARCHE PAS
 //Q6
 echo "Jeux dont le nom débute par Mario et dont le rating est superieur à 3 \n<br>\n<br>";
 foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
-    echo $game->name . $s;
     foreach ($game->original_game_ratings as $ra) {
-        if($ra->name)
-            echo '--- '.$ra->rating_board_id . $s ;
+        if(strpos($ra->name,"3+")!==false){
+            echo $game->name . $s;
+            echo '--- '.$ra->name . $s.$s ;
+        }
     }
-    echo $s;
 }
