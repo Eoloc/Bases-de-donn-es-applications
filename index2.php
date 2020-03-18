@@ -24,14 +24,14 @@ $s="\n<br>";
 // }
 
 //Q2
-echo "Personnages des jeux dont le nom (du jeu) débute par Mario : \n<br>\n<br>";
-foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
-    echo $game->name . $s;
-    foreach ($game->characters as $ch) {
-        echo '--- '.$ch->id . '. ' . $ch->name . ' : '.$ch->deck . $s ;
-    }
-    echo $s;
-}
+// echo "Personnages des jeux dont le nom (du jeu) débute par Mario : \n<br>\n<br>";
+// foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
+//     echo $game->name . $s;
+//     foreach ($game->characters as $ch) {
+//         echo '--- '.$ch->id . '. ' . $ch->name . ' : '.$ch->deck . $s ;
+//     }
+//     echo $s;
+// }
 
 
 //Q3
@@ -48,3 +48,12 @@ foreach (Game::select('id')->get() as $game) {
 MARCHE PAS
 */
 
+//Q6
+echo "Jeux dont le nom débute par Mario et dont le rating est superieur à 3 \n<br>\n<br>";
+foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
+    echo $game->name . $s;
+    // foreach ($game->original_game_ratings as $ra) {
+    //     echo '--- '.$ra->rating_id . $s ;
+    // }
+    echo $s;
+}
