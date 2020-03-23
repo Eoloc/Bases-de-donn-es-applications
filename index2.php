@@ -91,7 +91,8 @@ foreach (Game::where('name','LIKE', 'Mario%')
         $q->where('name', 'like', '%Inc%');
     })
     ->get() as $game) {
-
+    
+    
     echo '--- '.$game->name . $s;
     foreach($game->original_game_ratings as $rating) {
         if($rating->name === 'PEGI: 3+') 
