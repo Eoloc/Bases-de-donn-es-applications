@@ -3,7 +3,7 @@
 namespace bdd\models;
 use Illuminate\Database\Eloquent\Model;
 
-class rating_board extends Model{
+class game2genre extends Model{
     protected $table='game2genre';
     protected $primaryKey='id';
 

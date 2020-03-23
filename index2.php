@@ -3,6 +3,7 @@
 use bdd\models\character;
 use bdd\models\game;
 use bdd\models\company;
+use bdd\models\genre;
 use Illuminate\Database\Capsule\Manager as DB;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -13,6 +14,9 @@ $db->setAsGlobal();
 $db->bootEloquent();
 ini_set('memory_limit', '-1');
 $s="\n<br>";
+
+
+
 
 //Q1
 // echo "Noms et decks des personnages du jeu 12342 \n<br>\n<br>";
@@ -120,4 +124,13 @@ foreach (company::where('name','LIKE', '%Inc%')->get() as $company) {
 
 
 //Q9
-//insert into genre values (51 , 'nouveau genre' , NULL , 'cest le genre nouveau');   
+//insert into genre values (51 , 'nouveau genre' , NULL , 'cest le genre nouveau');
+
+$genre=new Genre();
+$genre->name='nouvo Genre';
+$genre->description='la description du genre nouveau';
+$genre->save();
+echo $genre->id;
+$genre->modifierJeu(12,$genre->id);
+$genre->modifierJeu(56,$genre->id);
+$genre->modifierJeu(345,$genre->id);
