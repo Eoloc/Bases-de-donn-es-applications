@@ -92,11 +92,13 @@ foreach (Game::where('name','LIKE', 'Mario%')
     })
     ->get() as $game) {
     
-    
-    echo '--- '.$game->name . $s;
+    foreach ($game->publishers as $company) {
+        echo '- '. $company->name . " : " . $s;
+    }
+    echo '--- '.$game->name .' - ';
     foreach($game->original_game_ratings as $rating) {
         if($rating->name === 'PEGI: 3+') 
-            echo '------ ' . $rating->name;
+            echo $rating->name;
     }
     echo $s . $s;
 }
