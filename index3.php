@@ -47,24 +47,27 @@ $s="<br>\n";
 // }
 
 //Q4
-$start=microtime(true);
-$res4 = Game::where('name', 'like', 'Mario%')
-    ->whereHas('original_game_ratings', function($q){
-        $q->where('name', 'like', '%3+%');
-    })
-    ->whereHas('publishers', function($q) {
-        $q->where('name', 'like', '%Inc.%');
-    })
+//$start=microtime(true);
+//$res4 = Game::where('name', 'like', 'Mario%')
+//    ->whereHas('original_game_ratings', function($q){
+//        $q->where('name', 'like', '%3+%');
+//    })
+//    ->whereHas('publishers', function($q) {
+//        $q->where('name', 'like', '%Inc.%');
+//    })
+//
+//    ->get();
+//$time = microtime(true)-$start;
+//echo $time . $s . $s;
+//foreach ($res4 as $game) {
+//    echo '#### ' . $game->name . ' : ' . $game->id . $s;
+//    foreach ($game->original_game_ratings as $rating) {
+//        echo '-------- ' . $rating->name . $s;
+//    }
+//    foreach ($game->publishers as $comp) {
+//        echo '--> publisher : '. $comp->name .  $s;
+//    }
+//}
 
-    ->get();
-$time = microtime(true)-$start;
-echo $time . $s . $s;
-foreach ($res4 as $game) {
-    echo '#### ' . $game->name . ' : ' . $game->id . $s;
-    foreach ($game->original_game_ratings as $rating) {
-        echo '-------- ' . $rating->name . $s;
-    }
-    foreach ($game->publishers as $comp) {
-        echo '--> publisher : '. $comp->name .  $s;
-    }
-}
+echo "Cache de requêtes SQL";
+echo "Lorsque l'on relance la même requête, le temps d'execution diminue";
