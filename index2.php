@@ -57,13 +57,15 @@ $s="\n<br>";
 
 //Q5
 // echo "Jeux dont le nom débute par Mario et ayant plus de 3 personnages \n<br>\n<br>";
-// foreach (Game::where('name', 'like', 'Mario%')->get() as $game) {
-//     echo $game->name . $s;
-//     foreach ($game->characters as $ra) {
-//             echo '--- '.$ra->name . $s ;
-//     }
-//     echo $s;
-// }
+//foreach (Game::where('name', 'like', 'Mario%')->has('characters', '>', 3)->get() as $game) {
+//    echo $game->name . ' : ' . $game->id . "\n";
+//    foreach ($game->characters as $ch) {
+//
+//        echo '--- '.$ch->id . '. ' . $ch->name . ' : '.$ch->deck . "\n" ;
+//
+//    }
+//
+//}
 
 
 //Q6
@@ -78,21 +80,21 @@ $s="\n<br>";
 // }
 
 //Q7
-echo "Jeux dont le nom débute par Mario et publié par une compagnie dont le nom contient \"Inc\" dont le rating initial contient '3+' \n<br>\n<br>";
-
-foreach (company::where('name','LIKE', '%Inc%')->get() as $company) {
-    foreach ($company->developpedBy as $game) {
-        if(strpos($game->name, "Mario") !== false){
-            
-            foreach ($game->original_game_ratings as $ra) {
-                if(strpos($ra->name,"3+")!==false){
-                    echo $company->name . $s;
-                    echo '--- '.$game->name . ' : ' . $ra->name . $s . $s;
-                }; 
-            }
-        }
-    }
-}
+//echo "Jeux dont le nom débute par Mario et publié par une compagnie dont le nom contient \"Inc\" dont le rating initial contient '3+' \n<br>\n<br>";
+//
+//foreach (company::where('name','LIKE', '%Inc%')->get() as $company) {
+//    foreach ($company->developpedBy as $game) {
+//        if(strpos($game->name, "Mario") !== false){
+//
+//            foreach ($game->original_game_ratings as $ra) {
+//                if(strpos($ra->name,"3+")!==false){
+//                    echo $company->name . $s;
+//                    echo '--- '.$game->name . ' : ' . $ra->name . $s . $s;
+//                };
+//            }
+//        }
+//    }
+//}
 
 //Q8
 // echo "les jeux dont le nom contient Mario, publiés par une compagnie dont le nom contient Inc, dont le rating initial contient 3+ et ayant reçu un avis de du rating board nommé CERO<br>";
