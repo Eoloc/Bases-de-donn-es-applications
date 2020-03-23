@@ -78,19 +78,22 @@ $s="\n<br>";
 // }
 
 //Q7
-echo "Jeux dont le nom débute par Mario et publié par une compagnie dont le nom contient \"Inc\" dont le rating initial contient '3+' \n<br>\n<br>";
+echo "Jeux dont le nom débute par Mario, créé par une compagnie dont le nom contient Inc et qui possède un rating initial contient '3+' $s $s";
 
-foreach (company::where('name','LIKE', '%Inc%')->get() as $company) {
-    foreach ($company->developpedBy as $game) {
-        if(strpos($game->name, "Mario") !== false){
-            
-            foreach ($game->original_game_ratings as $ra) {
-                if(strpos($ra->name,"3+")!==false){
-                    echo $company->name . $s;
-                    echo '--- '.$game->name . ' : ' . $ra->name . $s . $s;
-                }; 
-            }
-        }
+foreach (Game::where('name','LIKE', 'Mario%')
+    ->whereHas('original_game_ratings', function($q) {
+        $q->where('name', 'like', '%3+%');
+    })
+    ->whereHas('publishers', function($q) {
+        $q->where('name', 'like', '%Inc%');
+    })
+    ->get() as $game) {
+
+    echo '--- '.$game->name . $s;
+    foreach($game->original_game_ratings as $rating) {
+        if($rating->name === 'PEGI: 3+') 
+            echo '------ ' . $rating->name;
     }
+    echo $s . $s;
 }
 
