@@ -133,7 +133,7 @@ foreach (Game::where('name', 'like', 'Mario%')
 //Q9
 //insert into genre values (51 , 'nouveau genre' , NULL , 'cest le genre nouveau');
 
-$genre=new Genre();
+$genre=new genre();
 $genre->name='nouvo Genre';
 $genre->description='la description du genre nouveau';
 $genre->save();
