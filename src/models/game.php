@@ -15,7 +15,7 @@ class game extends Model{
 
     public function platforms() {
 
-        return $this->belongsToMany('\bdd\model\platform', 'game2platform', 'game_id', 'platform_id');
+        return $this->belongsToMany('\bdd\models\platform', 'game2platform', 'game_id', 'platform_id');
     }
 
     public function original_game_ratings() {
