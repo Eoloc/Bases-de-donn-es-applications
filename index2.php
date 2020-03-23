@@ -94,6 +94,24 @@ foreach (company::where('name','LIKE', '%Inc%')->get() as $company) {
     }
 }
 
+//Q8
+// echo "les jeux dont le nom contient Mario, publiés par une compagnie dont le nom contient Inc, dont le rating initial contient 3+ et ayant reçu un avis de du rating board nommé CERO<br>";
+
+// foreach (company::where('name','LIKE', '%Inc%')->get() as $company) {
+//     foreach ($company->developpedBy as $game) {
+//         if(strpos($game->name, "Mario") !== false){
+            
+//             foreach ($game->original_game_ratings as $ra) {
+//                 if(strpos($ra->name,"3+")!==false){
+//                     if($ra->rating_board_id ==3){
+//                     echo $company->name . $s;
+//                     echo '--- '.$game->name . ' : ' . $ra->name . $s . $s;
+//                     }
+//                 }; 
+//             }
+//         }
+//     }
+// }
 
 
 
