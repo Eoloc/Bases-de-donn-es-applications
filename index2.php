@@ -94,3 +94,12 @@ foreach (company::where('name','LIKE', '%Inc%')->get() as $company) {
     }
 }
 
+
+
+
+
+
+
+
+//Q9
+//insert into genre values (51 , 'nouveau genre' , NULL , 'cest le genre nouveau');   
