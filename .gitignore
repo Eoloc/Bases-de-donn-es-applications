@@ -8,4 +8,4 @@ composer.lock
 
 
 /.idea/
-/src/conf/conf.ini
+./src/conf/conf.ini
