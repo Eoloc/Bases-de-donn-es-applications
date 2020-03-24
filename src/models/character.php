@@ -13,7 +13,6 @@ class character extends \Illuminate\Database\Eloquent\Model{
     ];
 
     public function first_appeared_in_game() {
-
         return $this->belongsTo('\bdd\models\game', 'first_appeared_in_game_id');
     }
 

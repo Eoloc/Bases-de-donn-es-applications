@@ -3,6 +3,7 @@
 use bdd\models\character;
 use bdd\models\game;
 use bdd\models\company;
+use bdd\models\genre;
 use Illuminate\Database\Capsule\Manager as DB;
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -13,6 +14,9 @@ $db->setAsGlobal();
 $db->bootEloquent();
 ini_set('memory_limit', '-1');
 $s="\n<br>";
+
+
+
 
 //Q1
 // echo "Noms et decks des personnages du jeu 12342 \n<br>\n<br>";
@@ -76,23 +80,7 @@ $s="\n<br>";
 
 //Q7
 // echo "Jeux dont le nom débute par Mario, créé par une compagnie dont le nom contient Inc et qui possède un rating initial contient '3+' $s $s";
-// foreach (Game::where('name','LIKE', 'Mario%')
-//     ->whereHas('original_game_ratings', function($q) {
-//         $q->where('name', 'like', '%3+%');
-//     })
-//     ->whereHas('publishers', function($q) {
-//         $q->where('name', 'like', '%Inc%');
-//     })
-//     ->get() as $game) {
-//     echo '--- '.$game->name . $s;
-//     foreach($game->original_game_ratings as $rating) {
-//         if($rating->name === 'PEGI: 3+') 
-//             echo '------ ' . $rating->name;
-//     }
-//     echo $s . $s;
-// }
 
-// echo "Jeux dont le nom débute par Mario, créé par une compagnie dont le nom contient Inc et qui possède un rating initial contient '3+' $s $s";
 // foreach (Game::where('name','LIKE', 'Mario%')
 //     ->whereHas('original_game_ratings', function($q) {
 //         $q->where('name', 'like', '%3+%');
@@ -137,4 +125,13 @@ $s="\n<br>";
 
 
 //Q9
-//insert into genre values (51 , 'nouveau genre' , NULL , 'cest le genre nouveau');   
+//insert into genre values (51 , 'nouveau genre' , NULL , 'cest le genre nouveau');
+
+$genre=new genre();
+$genre->name='nouvo Genre';
+$genre->description='la description du genre nouveau';
+$genre->save();
+echo $genre->id;
+$genre->modifierJeu(12,$genre->id);
+$genre->modifierJeu(56,$genre->id);
+$genre->modifierJeu(345,$genre->id);
