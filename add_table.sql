@@ -4,7 +4,7 @@ CREATE TABLE `user` (
     `nom` varchar(128),
     `prenom` varchar(128),
     `adresse` varchar(128),
-    `numero` int(11),
+    `numero` varchar(18),
     `date` date,
     PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,6 +1,5 @@
 <?php
 
-use bdd\models\company;
 use bdd\models\game;
 use Illuminate\Database\Capsule\Manager as DB;
 
