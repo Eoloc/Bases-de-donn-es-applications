@@ -15,9 +15,6 @@ $db->bootEloquent();
 ini_set('memory_limit', '-1');
 $s="\n<br>";
 
-
-
-
 //Q1
 // echo "Noms et decks des personnages du jeu 12342 \n<br>\n<br>";
 // foreach (Game::where('id', '=', '12342')->get() as $game) {
