@@ -69,6 +69,7 @@ $s="<br>\n";
 //    }
 // }
 
+echo "PARTIE 1 $s $s";
 echo "Cache de requêtes MYSQL" . $s;
 echo "Lorsque l'on relance la même requête, le temps d'execution
  diminue" . $s . $s;
@@ -100,6 +101,7 @@ echo "Après voir add un index a la table,
  on gagne 2 secondes environs sur le temps d'execution de la requête.
  Le temps d'execution varie toujours selon la quantité de donnée a traiter" . $s . $s;
 
+ echo "PARTIE 2 $s $s";
 //Q2.1
 // $start=microtime(true);
 // $res21 = Game::where('name', 'like', '%Mario%')->get();
@@ -160,3 +162,19 @@ echo "Après voir add un index a la table,
 //     }
 //     echo $s;
 // }
+
+//Q Chargement liés
+$start=microtime(true);
+$resGame = Game::with('characters')->get();
+$time = microtime(true)-$start;
+echo $time . $s . $s;
+var_dump($resGame);
+// foreach ($resGame as $game) {
+//     echo $game->name . $s;
+//     echo '--- ' . $resGame->characters->name . $s;
+//     echo $s;
+// }
+
+echo "On a la requete qui récupère tout les jeux 
+puis on echo tout les noms et pour chaque nom on fait une 
+requete pour récupérer les personnages de chaque jeu soit 47928 requete";
