@@ -8,5 +8,6 @@ class user extends Model{
 
     protected $table='user';
     protected $primaryKey='email';
+    public $timestamps = false;
 
 }

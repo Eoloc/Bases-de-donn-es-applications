@@ -8,6 +8,6 @@ class comment extends Model{
 
     protected $table='comment';
     protected $primaryKey='id';
-    protected $times
+    public $timestamps = true;
 
 }
