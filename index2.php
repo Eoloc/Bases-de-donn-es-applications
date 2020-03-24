@@ -38,9 +38,7 @@ $s="\n<br>";
 // echo "Compagnie dont le nom contient Sony avec leurs jeux\n<br>\n<br>";
 // foreach (company::where('name','LIKE', '%Sony%')->get() as $company) {
 //     echo $company->name . $s;
-//     foreach ($company->developpedBy as $game) {
-
-        
+//     foreach ($company->developpedBy as $game) {    
 //         echo '--- '. $game->id . '. ' . $game->name . $s ;
 //     }
 //     echo $s;
@@ -60,11 +58,8 @@ $s="\n<br>";
 // foreach (Game::where('name', 'like', 'Mario%')->has('characters', '>', 3)->get() as $game) {
 //    echo $game->name . ' : ' . $game->id . "\n";
 //    foreach ($game->characters as $ch) {
-
 //        echo '--- '.$ch->id . '. ' . $ch->name . ' : '.$ch->deck . "\n" ;
-
 //    }
-
 // }
 
 
@@ -97,51 +92,48 @@ $s="\n<br>";
 //     echo $s . $s;
 // }
 
-echo "Jeux dont le nom débute par Mario, créé par une compagnie dont le nom contient Inc et qui possède un rating initial contient '3+' $s $s";
-
-foreach (Game::where('name','LIKE', 'Mario%')
-    ->whereHas('original_game_ratings', function($q) {
-        $q->where('name', 'like', '%3+%');
-    })
-    ->whereHas('publishers', function($q) {
-        $q->where('name', 'like', '%Inc%');
-    })
-    ->get() as $game) {
-    
-    foreach ($game->publishers as $company) {
-        echo '- '. $company->name . " : " . $s;
-    }
-    echo '--- '.$game->name .' - ';
-    foreach($game->original_game_ratings as $rating) {
-        if($rating->name === 'PEGI: 3+') 
-            echo $rating->name;
-    }
-    echo $s . $s;
-}
+// echo "Jeux dont le nom débute par Mario, créé par une compagnie dont le nom contient Inc et qui possède un rating initial contient '3+' $s $s";
+// foreach (Game::where('name','LIKE', 'Mario%')
+//     ->whereHas('original_game_ratings', function($q) {
+//         $q->where('name', 'like', '%3+%');
+//     })
+//     ->whereHas('publishers', function($q) {
+//         $q->where('name', 'like', '%Inc%');
+//     })
+//     ->get() as $game) {
+//     foreach ($game->publishers as $company) {
+//         echo '- '. $company->name . " : " . $s;
+//     }
+//     echo '--- '.$game->name .' - ';
+//     foreach($game->original_game_ratings as $rating) {
+//         if($rating->name === 'PEGI: 3+') 
+//             echo $rating->name;
+//     }
+//     echo $s . $s;
+// }
 
 
 //Q8
- echo "Les jeux dont le nom contient Mario, publiés par une compagnie dont le nom contient Inc, dont le rating initial contient 3+ et ayant reçu un avis de du rating board nommé CERO".$s.$s;
-
-foreach (Game::where('name', 'like', 'Mario%')
-             ->whereHas('original_game_ratings', function($q){
-                 $q->where('name', 'like', '%3+%');
-             })
-             ->whereHas('publishers', function($q) {
-                $q->where('name', 'like', '%Inc.%');
-            })
-             ->orwhereHas('original_game_ratings', function($q){
-                 $q->where('name', '=', 'CERO%');
-             })
-             ->get() as $game) {
-    echo '--- ' . $game->name . ' : ' . $game->id . "$s";
-    foreach ($game->original_game_ratings as $rating) {
-        echo '------ ' . $rating->name . "$s";
-    }
-    foreach ($game->publishers as $comp) {
-        echo '------ Publisher : '. $comp->name .  "$s";
-    }
-}
+//  echo "Les jeux dont le nom contient Mario, publiés par une compagnie dont le nom contient Inc, dont le rating initial contient 3+ et ayant reçu un avis de du rating board nommé CERO".$s.$s;
+// foreach (Game::where('name', 'like', 'Mario%')
+//             ->whereHas('original_game_ratings', function($q){
+//                  $q->where('name', 'like', '%3+%');
+//             })
+//             ->whereHas('publishers', function($q) {
+//                 $q->where('name', 'like', '%Inc.%');
+//             })
+//             ->orwhereHas('original_game_ratings', function($q){
+//                  $q->where('name', '=', 'CERO%');
+//             })
+//             ->get() as $game) {
+//     echo '--- ' . $game->name . ' : ' . $game->id . "$s";
+//     foreach ($game->original_game_ratings as $rating) {
+//         echo '------ ' . $rating->name . "$s";
+//     }
+//     foreach ($game->publishers as $comp) {
+//         echo '------ Publisher : '. $comp->name .  "$s";
+//     }
+// }
 
 
 //Q9
