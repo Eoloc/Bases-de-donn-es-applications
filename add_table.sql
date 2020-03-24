@@ -20,4 +20,16 @@ CREATE TABLE `comment` (
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS comment2game;
+CREATE TABLE `comment2game` (
+                           `comment_id` int(11) NOT NULL ,
+                           `game_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS comment2user;
+CREATE TABLE `comment2user` (
+                                `comment_id` int(11) NOT NULL ,
+                                `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 commit;
