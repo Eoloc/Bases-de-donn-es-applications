@@ -1,6 +1,8 @@
 {
   "require": {
     "illuminate/database": "5.8.*",
+    "fzaninotto/faker": "*",
+    "slim/slim": "3.*",
     "php": ">=7.0.0",
     "ext-json": "*"
   },
