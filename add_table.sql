@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS comment;
 CREATE TABLE `comment` (
                         `id` int(11) NOT NULL AUTO_INCREMENT,
                         `title` varchar(128) NOT NULL,
-                        `content` varchar(128),
+                        `content` text,
                         `created_at` DATETIME,
                         `updated_at` DATETIME,
                         PRIMARY KEY (`id`)
