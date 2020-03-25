@@ -34,6 +34,7 @@ $container['notFoundHandler'] = function ($container) {
     };
 };
 
+
 //Les navigateurs font automatiquement l'affichage des json
 $app->get('/api/games/{id}', function (Request $req,  Response $res, $args = []) {
     $id=$args['id'];
@@ -47,7 +48,7 @@ $app->get('/api/games/{id}', function (Request $req,  Response $res, $args = [])
 })->setName('Question1');
 
 
-
+$router =$app->getContainer()->get("router");
 $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
     if($_GET["page"]== null){
         $tmp = 1;
@@ -62,7 +63,7 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
     }
     while($tmp<=$tmp200){
         echo Game::select("id","name","alias","deck")->where("id","=",$tmp)->get();
-        echo "\"links\" : { \"self\" : {\"href\" : \"}";
+        echo "\"links\" : { \"self\" : {\"href\" : \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."\"}";
         $tmp++;
     }
     if($tmp>0 && $tmp<239){
