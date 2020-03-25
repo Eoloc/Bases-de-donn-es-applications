@@ -44,14 +44,22 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
     if($_GET["page"]== null){
         $tmp = 1;
         $tmp200=200;
+        $prev=1;
+        $next=2;
     }else{
         $tmp=$_GET["page"]*200;
         $tmp200 = $tmp+200;
+        $prev=$_GET["page"]-1;
+        $next=$_GET["page"]+1;    
     }
     while($tmp<=$tmp200){
         echo Game::select("id","name","alias","deck")->where("id","=",$tmp)->get();
         $tmp++;
     }
+    if($tmp>0 && $tmp<239){
+        echo"\"links\" : {\"prev\" : {\"href\" : \"/api/games?page=".($prev)."\"}, \"next\" : {\"href\" : \"/api/games?page=".($next)."\"}}";
+    }
+    
 })->setName('Question2');
 
 
