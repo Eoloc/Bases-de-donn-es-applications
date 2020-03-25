@@ -164,17 +164,19 @@ echo "Après voir add un index a la table,
 // }
 
 //Q Chargement liés
-$start=microtime(true);
-$resGame = Game::with('characters')->get();
-$time = microtime(true)-$start;
-echo $time . $s . $s;
-var_dump($resGame);
-// foreach ($resGame as $game) {
+// $start=microtime(true);
+// $games = Game::where('name', 'like', 'Mario%')->with('characters')->get();
+
+
+// foreach ($games as $game) {
 //     echo $game->name . $s;
-//     echo '--- ' . $resGame->characters->name . $s;
+//     foreach($game->characters as $ch) {
+//         echo '--- ' . $ch->name . $s;
+//     }
 //     echo $s;
 // }
-
-echo "On a la requete qui récupère tout les jeux 
-puis on echo tout les noms et pour chaque nom on fait une 
+// $time = microtime(true)-$start;
+// echo $time . $s . $s;
+echo "On a la requete qui récupère tout les jeux.
+Puis on echo tout les noms et pour chaque nom on fait une 
 requete pour récupérer les personnages de chaque jeu soit 47928 requete";
