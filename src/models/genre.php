@@ -9,7 +9,7 @@ class genre extends Model{
 public $timestamps = false;
 
 public function modifierJeu($idGame,$idGenre){
-$game=Game::where('id','=',$idGame)->first();
+$game=bdd\models\Game::where('id','=',$idGame)->first();
 $g2g=new Game2genre();
 $g2g->game_id=$game->id;
 $g2g->genre_id=$idGenre;
