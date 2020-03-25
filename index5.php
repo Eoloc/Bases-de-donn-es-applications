@@ -34,9 +34,16 @@ $container['notFoundHandler'] = function ($container) {
     };
 };
 
+//Les navigateurs font automatiquement l'affichage des json
 $app->get('/api/games/{id}', function (Request $req,  Response $res, $args = []) {
     $id=$args['id'];
-    echo Game::where('id', '=', $id )->get(); 
+    $g = Game::where('id', '=', $id )->get();
+
+    $body = $res->getBody();
+    $body->write("{$g}");
+
+    return $res->withHeader('Content-Type', 'application/json')->withBody($body);
+
 })->setName('Question1');
 
 
