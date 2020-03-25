@@ -41,8 +41,13 @@ $app->get('/api/games/{id}', function (Request $req,  Response $res, $args = [])
 
 
 $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
-    $tmp=$_GET["page"]*200;
-    $tmp200 = $tmp+200;
+    if($_GET["page"]== null){
+        $tmp = 1;
+        $tmp200=200;
+    }else{
+        $tmp=$_GET["page"]*200;
+        $tmp200 = $tmp+200;
+    }
     while($tmp<=$tmp200){
         echo Game::select("id","name","alias","deck")->where("id","=",$tmp)->get();
         $tmp++;
