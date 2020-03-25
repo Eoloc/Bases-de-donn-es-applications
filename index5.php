@@ -40,6 +40,7 @@ $app->get('/api/games/{id}', function (Request $req,  Response $res, $args = [])
 })->setName('Question1');
 
 
+
 $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
     if($_GET["page"]== null){
         $tmp = 1;
@@ -54,12 +55,13 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
     }
     while($tmp<=$tmp200){
         echo Game::select("id","name","alias","deck")->where("id","=",$tmp)->get();
+        echo "\"links\" : { \"self\" : {\"href\" : \"}";
         $tmp++;
     }
     if($tmp>0 && $tmp<239){
         echo"\"links\" : {\"prev\" : {\"href\" : \"/api/games?page=".($prev)."\"}, \"next\" : {\"href\" : \"/api/games?page=".($next)."\"}}";
     }
-    
+
 })->setName('Question2');
 
 
