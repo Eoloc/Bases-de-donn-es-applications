@@ -59,16 +59,22 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
     if($req->getQueryParam('page')== null){
         $tmp = 1;
         $tmp200=200;
+        $prev=null;
+        $next=1;
     }else{
         $tmp=($req->getQueryParam('page')*200==0)?1:$req->getQueryParam('page')*200;
         $tmp200 = ($tmp==1)?200:$tmp+199;
+        $prev=($tmp==1)?null:$req->getQueryParam('page')-1;
+        $next=$req->getQueryParam('page')+1;
     }
     while($tmp<=$tmp200){
         $g = Game::select("id","name","alias","deck")->where("id","=",$tmp)->get();
         $tempArray = json_decode($g);
 
         $alias = trim(preg_replace('/\s+/', ' ', $tempArray[0]->alias)); //supprime les saut de ligne
-        $deck =  trim(preg_replace('/\"/', '\"', $tempArray[0]->deck)); //remplace " par \"
+        $deck =  trim(preg_replace('/\s+/', ' ', $tempArray[0]->deck)); //supprime les saut de ligne
+        $deck =  trim(preg_replace('/\"/', '\"', $deck)); //remplace " par \"
+
         $body->write("
          {
             \"id\": \"{$tempArray[0]->id}\",
@@ -77,7 +83,6 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
             \"deck\": \"$deck\"
          }");
 
-
         $tmp++;
 
         //Mettre la virgule à tout les élément sauf le dernier
@@ -85,10 +90,23 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
             $body->write(",");
     }
     $body->write("
-    ]");
+    ],");
 
     $body->write("
-    
+        \"links\" : {
+    ");
+
+    if($prev!==null) {
+        $body->write("
+            \"prev\" : { \"href\" : \"/api/games?page=".($prev)."\"}, 
+");
+    }
+
+    $body->write("
+            \"next\" : {\"href\" : \"/api/games?page=".($next)."\"}
+        }");
+
+    $body->write("
 }");
 
     return $res->withHeader('Content-Type', 'application/json')->withBody($body);
@@ -96,15 +114,10 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
 
     //TODO
     /*
-         $prev=1;
-        $next=2;
-            $prev=$req->getQueryParam('page')-1;
-        $next=$req->getQueryParam('page')+1;
+
             //array_push($tempArray, "{\"links\" : { \"self\" : {\"href\" : \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."\"}}}");
 
-        if($tmp>0 && $tmp<239){
-        //$body->write("\"links\" : {\"prev\" : {\"href\" : \"/api/games?page=".($prev)."\"}, \"next\" : {\"href\" : \"/api/games?page=".($next)."\"}}");
-    }
+
      */
 })->setName('Question2');
 
