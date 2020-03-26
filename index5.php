@@ -76,7 +76,12 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
     
 })->setName('Question2');
 
+//PARTIE 5
+$app->get("/api/games/{id}/comments",function (Request $req,  Response $res, $args = []){
+    $id =$args['id'];
+});
 
+//PARTIE 7
 $app->get("/api/games/{id}/characters",function (Request $req,  Response $res, $args = []) {
      $id=$args['id'];
     foreach (Game::where('id', '=', $id)->get() as $game) {
