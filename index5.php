@@ -35,7 +35,8 @@ $container['notFoundHandler'] = function ($container) {
 };
 
 
-//Les navigateurs font automatiquement l'affichage des json
+// Les navigateurs font automatiquement l'affichage des json
+// PARTIE 1
 $app->get('/api/games/{id}', function (Request $req,  Response $res, $args = []) {
     $id=$args['id'];
     $g = Game::where('id', '=', $id )->get();
@@ -47,8 +48,8 @@ $app->get('/api/games/{id}', function (Request $req,  Response $res, $args = [])
 
 })->setName('Question1');
 
-
-
+// PARTIE 2
+$router =$app->getContainer()->get("router");
 $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
     if($_GET["page"]== null){
         $tmp = 1;
@@ -62,14 +63,17 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
         $next=$_GET["page"]+1;    
     }
     while($tmp<=$tmp200){
-        echo Game::select("id","name","alias","deck")->where("id","=",$tmp)->get();
-        echo "\"links\" : { \"self\" : {\"href\" : \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."\"}";
+        $g = Game::select("id","name","alias","deck")->where("id","=",$tmp)->get();
+        //$g = json_decode($g);
+        $tempArray = json_decode($g);
+        array_push($tempArray, "{\"links\" : { \"self\" : {\"href\" : \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."\"}}}");
+        $g = json_encode($tempArray);
         $tmp++;
     }
     if($tmp>0 && $tmp<239){
-        echo"\"links\" : {\"prev\" : {\"href\" : \"/api/games?page=".($prev)."\"}, \"next\" : {\"href\" : \"/api/games?page=".($next)."\"}}";
+        //echo"\"links\" : {\"prev\" : {\"href\" : \"/api/games?page=".($prev)."\"}, \"next\" : {\"href\" : \"/api/games?page=".($next)."\"}}";
     }
-
+    
 })->setName('Question2');
 
 

@@ -1,5 +1,6 @@
 <?php
 
+use bdd\models\company;
 use bdd\models\game;
 use Illuminate\Database\Capsule\Manager as DB;
 
@@ -100,82 +101,99 @@ echo "Après voir add un index a la table,
  on gagne 2 secondes environs sur le temps d'execution de la requête.
  Le temps d'execution varie toujours selon la quantité de donnée a traiter" . $s . $s;
 
- echo "PARTIE 2 $s $s";
+echo "PARTIE 2 $s $s";
+
+// On active dans Eloquent le mécanisme de log de requêtes
+DB::connection()->enableQueryLog();
+
+
 //Q2.1
 // $start=microtime(true);
 // $res21 = Game::where('name', 'like', '%Mario%')->get();
 // $time = microtime(true)-$start;
 // echo $time . $s . $s;
-// foreach ($res21 as $game) {
-//    echo $game->name . $s;
-// }
+// $queries = DB::getQueryLog();
+// $last_query = end($queries);
+// var_dump($last_query);
+// echo $s . "1 requête a été exécutée" . $s . $s;
 
 //Q2.2
 // $start=microtime(true);
 // $res22 = Game::where('id', '=', '12342')->get();
+// $countRequest = 1;
 // $time = microtime(true)-$start;
 // echo $time . $s . $s;
 // foreach ($res22 as $game) {
-//     echo $game->name . $s;
 //     foreach ($game->characters as $ch) {
-//         echo '--- ' . $ch->name . ' : '. $s ;
 //     }
-//     echo $s;
+//     $countRequest++;
 // }
+// $queries = DB::getQueryLog();
+// $last_query = end($queries);
+// var_dump($last_query);
+// echo $s . $countRequest . " requêtes ont été exécutées" . $s . $s;
+
 
 //Q2.3
 // $start=microtime(true);
 // $res23 = Game::where('name', 'like', '%Mario%')->get();
+// $countRequest = 1;
 // $time = microtime(true)-$start;
 // echo $time . $s . $s;
 // foreach ($res23 as $game) {
-//     echo $game->name . $s;
 //     foreach ($game->first_appearance_characters as $ch) {
-//         echo '--- '.$ch->name . $s ;
 //     }
-//     echo $s;
+//     $countRequest++;
 // }
+// $queries = DB::getQueryLog();
+// $last_query = end($queries);
+// var_dump($last_query);
+// echo $s . $countRequest . " requêtes ont été exécutées" . $s . $s;
 
 //Q2.4
 // $start=microtime(true);
 // $res24 = Game::where('name', 'like', '%Mario%')->get();
 // $time = microtime(true)-$start;
+// $countRequest = 1;
 // echo $time . $s . $s;
 // foreach ($res24 as $game) {
-//     echo $game->name . $s;
 //     foreach ($game->characters as $ch) {
-//         echo '--- ' . $ch->name . $s;
 //     }
-//     echo $s;
+//     $countRequest++;
 // }
+// $queries = DB::getQueryLog();
+// $last_query = end($queries);
+// var_dump($last_query);
+// echo $s . $countRequest . " requêtes ont été exécutées" . $s . $s;
 
 //Q2.5
 // echo "Compagnie dont le nom contient Sony avec leurs jeux $s $s";
 // $start=microtime(true);
 // $res25 = company::where('name','LIKE', '%Sony%')->get();
 // $time = microtime(true)-$start;
+// $countRequest = 1;
 // foreach ($res25 as $company) {
-//     echo $company->name . $s;
 //     foreach ($company->developpedBy as $game) {
-//         echo '--- '. $game->id . '. ' . $game->name . $s ;
 //     }
-//     echo $s;
+//     $countRequest++;
 // }
+// $queries = DB::getQueryLog();
+// $last_query = end($queries);
+// var_dump($last_query);
+// echo $s . $countRequest . " requêtes ont été exécutées" . $s . $s;
 
 //Q Chargement liés
 // $start=microtime(true);
 // $games = Game::where('name', 'like', 'Mario%')->with('characters')->get();
-
-
+// $countRequest = 1;
 // foreach ($games as $game) {
-//     echo $game->name . $s;
 //     foreach($game->characters as $ch) {
-//         echo '--- ' . $ch->name . $s;
 //     }
-//     echo $s;
 // }
 // $time = microtime(true)-$start;
 // echo $time . $s . $s;
-echo "On a la requete qui récupère tout les jeux.
-Puis on echo tout les noms et pour chaque nom on fait une 
-requete pour récupérer les personnages de chaque jeu soit 47928 requete";
+// $queries = DB::getQueryLog();
+// $last_query = end($queries);
+// var_dump($last_query);
+// echo "$s $s Il n'y a qu'une requête faite ici car with fait en fait
+// un inner join reliant la table game a la table characters";
