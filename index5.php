@@ -24,7 +24,7 @@ $config = ['settings' => [
 ]];
 $app = new \Slim\App($config);
 $container = $app->getContainer();
-
+$router =$app->getContainer()->get("router");
 //TODO personnalisé le notFound
 $container['notFoundHandler'] = function ($container) {
     return function (Request $request, Response $response) {
@@ -108,6 +108,30 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
      */
 })->setName('Question2');
 
+//PARTIE 5
+$app->get("/api/games/{id}/comments",function (Request $req,  Response $res, $args = []){
+    $id =$args['id'];
+});
+
+//PARTIE 7
+$app->get("/api/games/{id}/characters",function (Request $req,  Response $res, $args = []) {
+     $id=$args['id'];
+    foreach (Game::where('id', '=', $id)->get() as $game) {
+        foreach ($game->characters as $ch) {
+            $tmp = $ch->id;
+            echo "{\"character\" : {\"id\":".$ch->id . ",\"name\": " . $ch->name.","."},"."\"links\":{ \"self\" : {\"href\" : \"".($GLOBALS["router"]->urlFor("Commentaires",["id"=>$tmp]))."\"}}}"  ;
+        }
+        echo $s;
+}
+    
+})->setName("Personnages");
+
+$app->get("/api/characters/{id}", function (Request $req,  Response $res, $args = []){
+    $id=$args['id'];
+    foreach (Character::where('id', '=', $id)->get() as $c) {
+        echo "{\"character\" : {\"id\":".$c->id . ",\"name\": " . $c->name.",\"deck\": ".$c->deck."}";
+    }
+})->setName("Commentaires");
 
 try {
     $app->run();
