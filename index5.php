@@ -152,7 +152,7 @@ $app->get("/api/games/{id}/characters",function (Request $req,  Response $res, $
                     \"name\": \"$ch->name\"
                     }," . "
                    \"links\":{
-                    \"self\" : {\"href\" : \"" . ($GLOBALS["router"]->urlFor("Commentaires", ["id" => $tmp])) . "\"}
+                    \"self\" : {\"href\" : \"" . ($GLOBALS["router"]->urlFor("characters", ["id" => $tmp])) . "\"}
                    }
                 }");
             if($i < count($characters)-1)
@@ -169,10 +169,12 @@ $app->get("/api/games/{id}/characters",function (Request $req,  Response $res, $
 
 $app->get("/api/characters/{id}", function (Request $req,  Response $res, $args = []){
     $id=$args['id'];
+    $body = $res->getBody();
     foreach (Character::where('id', '=', $id)->get() as $c) {
-        echo "{\"character\" : {\"id\":".$c->id . ",\"name\": " . $c->name.",\"deck\": ".$c->deck."}";
+        $body->write( "{\"character\": {\"id\": $c->id ,\"name\": \" $c->name\",\"deck\": \"$c->deck\"}}");
     }
-})->setName("Commentaires");
+    return $res->withHeader('Content-Type', 'application/json')->withBody($body);
+})->setName("characters");
 
 
 try {
