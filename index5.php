@@ -135,13 +135,33 @@ $app->get("/api/games/{id}/comments",function (Request $req,  Response $res, $ar
 //PARTIE 7
 $app->get("/api/games/{id}/characters",function (Request $req,  Response $res, $args = []) {
      $id=$args['id'];
+
+    $body = $res->getBody();
+    $body->write("{\n   \"characters\":[");
+
     foreach (Game::where('id', '=', $id)->get() as $game) {
-        foreach ($game->characters as $ch) {
+        $characters = $game->characters;
+        for ($i = 0; $i < count($characters); $i++) {
+            $ch = $characters[$i];
             $tmp = $ch->id;
-            echo "{\"character\" : {\"id\":".$ch->id . ",\"name\": " . $ch->name.","."},"."\"links\":{ \"self\" : {\"href\" : \"".($GLOBALS["router"]->urlFor("Commentaires",["id"=>$tmp]))."\"}}}"  ;
+            $body->write("
+                {\"character\" : {
+                    \"id\": $ch->id,
+                    \"name\": \"$ch->name\"
+                    }," . "
+                   \"links\":{
+                    \"self\" : {\"href\" : \"" . ($GLOBALS["router"]->urlFor("Commentaires", ["id" => $tmp])) . "\"}
+                   }
+                }");
+            if($i < count($characters)-1)
+                $body->write(",");
         }
-        echo $s;
-}
+    }
+    $body->write("
+    ]
+}");
+
+    return $res->withHeader('Content-Type', 'application/json')->withBody($body);
     
 })->setName("Personnages");
 
@@ -151,6 +171,7 @@ $app->get("/api/characters/{id}", function (Request $req,  Response $res, $args 
         echo "{\"character\" : {\"id\":".$c->id . ",\"name\": " . $c->name.",\"deck\": ".$c->deck."}";
     }
 })->setName("Commentaires");
+
 
 try {
     $app->run();
