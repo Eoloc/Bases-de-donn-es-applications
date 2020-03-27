@@ -86,7 +86,9 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
 
         $body->write("
             \"links\": { 
-                \"self\": {\"href\" : \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."\"}
+                \"self\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."\"},
+                \"comments\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."/comments\"},
+                \"characters\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."/characters\"}
             }}");
 
 
