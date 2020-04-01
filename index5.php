@@ -3,6 +3,7 @@ use bdd\models\character;
 use bdd\models\game;
 use bdd\models\company;
 use bdd\models\genre;
+use bdd\models\platform;
 use Illuminate\Database\Capsule\Manager as DB;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -48,6 +49,23 @@ $app->get('/api/games/{id}', function (Request $req,  Response $res, $args = [])
 
 })->setName('Question1');
 
+$app->get('/test', function (Request $req,  Response $res, $args = []) {
+    $g = Game::select("id","name","alias","deck")->where('id', '=', '35444')->with('characters')->get();
+    // var_dump($g);
+    // $tempArray = json_decode($g);
+    // $platforms = $tempArray[0]->platforms;
+    // $tempArrayPlatform = $tempArray;
+    $body = $res->getBody();
+    // for($i = 0; $i < count($platforms); $i++) {
+    //     // $body->write();
+    // }
+    $body->write("{$g}");
+    // for($i = 0; $i < count($tempArray[0]->platforms); $i++) {
+    // }
+    return $res->withHeader('Content-Type', 'application/json')->withBody($body);
+
+})->setName('test');
+
 // PARTIE 2
 $router =$app->getContainer()->get("router");
 $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
@@ -68,35 +86,63 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
         $next=$req->getQueryParam('page')+1;
     }
     while($tmp<=$tmp200){
-        $g = Game::select("id","name","alias","deck")->where("id","=",$tmp)->get();
+        $g = Game::select("id","name","alias","deck")->where("id","=",$tmp)->with('platforms')->get();
         $tempArray = json_decode($g);
 
+        $id = $tempArray[0]->id;
         $name =  trim(preg_replace('/\"/', '\"', $tempArray[0]->name)); //supprime les saut de ligne
         $alias = trim(preg_replace('/\s+/', ' ', $tempArray[0]->alias)); //supprime les saut de ligne
         $deck  = trim(preg_replace('/\s+/', ' ', $tempArray[0]->deck)); //supprime les saut de ligne
         $deck  = trim(preg_replace('/\"/', '\"', $deck)); //remplace " par \"
+        $platforms = $tempArray[0]->platforms;
 
-        $body->write("{
-         \"game\": {
-            \"id\": \"{$tempArray[0]->id}\",
-            \"name\": \"{$name}\",
-            \"alias\": \"$alias\",
-            \"deck\": \"$deck\"
-         },");
+
+        $body->write("
+        {
+            \"game\": {
+                \"id\": \"{$id}\",
+                \"name\": \"{$name}\",
+                \"alias\": \"$alias\",
+                \"deck\": \"$deck\",
+                \"platforms\": [");
+            for($i = 0; $i < (count($platforms)-1); $i++) {
+                $aliasPlatform = trim(preg_replace('/\s+/', ' ', $platforms[$i]->alias)); //supprime les saut de ligne
+                $body->write("{
+                    \"id\": \"{$platforms[$i]->id}\",
+                    \"name\": \"{$platforms[$i]->name}\",
+                    \"alias\": \"$aliasPlatform\",
+                    \"abbreviation\": \"{$platforms[$i]->abbreviation}\",
+                    \"url\": \"".($GLOBALS["router"]->urlFor("Question6",["id"=>$platforms[$i]->id]))."\"
+                },");
+            }
+            if(count($platforms) != 0) {
+                $aliasPlatform = trim(preg_replace('/\s+/', ' ', $platforms[$i]->alias));
+                $body->write("{
+                    \"id\": \"{$platforms[(count($platforms) - 1)]->id}\",
+                    \"name\": \"{$platforms[(count($platforms) - 1)]->name}\",
+                    \"alias\": \"$aliasPlatform\",
+                    \"abbreviation\": \"{$platforms[(count($platforms) - 1)]->abbreviation}\",
+                    \"url\": \"".($GLOBALS["router"]->urlFor("Question6",["id"=>$platforms[(count($platforms) - 1)]->id]))."\"
+                }");
+            }
+            $body->write("]
+            },");
 
         $body->write("
             \"links\": { 
-                \"self\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."\"},
-                \"comments\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."/comments\"},
-                \"characters\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."/characters\"}
-            }}");
+                    \"self\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."\"},
+                    \"comments\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."/comments\"},
+                    \"characters\": {\"href\": \"".($GLOBALS["router"]->urlFor("Question1",["id"=>$tmp]))."/characters\"}
+                }
+        }");
 
 
         $tmp++;
 
         //Mettre la virgule à tout les élément sauf le dernier
         if($tmp<=$tmp200)
-            $body->write(",");
+            $body->write(",
+            ");
     }
     $body->write("
     ],");
@@ -135,25 +181,57 @@ $app->get("/api/games/{id}/comments",function (Request $req,  Response $res, $ar
 	echo "lol";
 });
 
+// PARTIE 6
+$app->get('/api/platforms/{id}', function (Request $req,  Response $res, $args = []) {
+    $id=$args['id'];
+    $g = Platform::where('id', '=', $id )->get();
+    $body = $res->getBody();
+    $body->write("{$g}");
+    return $res->withHeader('Content-Type', 'application/json')->withBody($body);
+})->setName('Question6');
+
 //PARTIE 7
 $app->get("/api/games/{id}/characters",function (Request $req,  Response $res, $args = []) {
      $id=$args['id'];
+
+    $body = $res->getBody();
+    $body->write("{\n   \"characters\":[");
+
     foreach (Game::where('id', '=', $id)->get() as $game) {
-        foreach ($game->characters as $ch) {
+        $characters = $game->characters;
+        for ($i = 0; $i < count($characters); $i++) {
+            $ch = $characters[$i];
             $tmp = $ch->id;
-            echo "{\"character\" : {\"id\":".$ch->id . ",\"name\": " . $ch->name.","."},"."\"links\":{ \"self\" : {\"href\" : \"".($GLOBALS["router"]->urlFor("Commentaires",["id"=>$tmp]))."\"}}}"  ;
+            $body->write("
+                {\"character\" : {
+                    \"id\": $ch->id,
+                    \"name\": \"$ch->name\"
+                    }," . "
+                   \"links\":{
+                    \"self\" : {\"href\" : \"" . ($GLOBALS["router"]->urlFor("characters", ["id" => $tmp])) . "\"}
+                   }
+                }");
+            if($i < count($characters)-1)
+                $body->write(",");
         }
-        echo $s;
-}
+    }
+    $body->write("
+    ]
+}");
+
+    return $res->withHeader('Content-Type', 'application/json')->withBody($body);
     
 })->setName("Personnages");
 
 $app->get("/api/characters/{id}", function (Request $req,  Response $res, $args = []){
     $id=$args['id'];
+    $body = $res->getBody();
     foreach (Character::where('id', '=', $id)->get() as $c) {
-        echo "{\"character\" : {\"id\":".$c->id . ",\"name\": " . $c->name.",\"deck\": ".$c->deck."}";
+        $body->write( "{\"character\": {\"id\": $c->id ,\"name\": \" $c->name\",\"deck\": \"$c->deck\"}}");
     }
-})->setName("Commentaires");
+    return $res->withHeader('Content-Type', 'application/json')->withBody($body);
+})->setName("characters");
+
 
 
 /**
