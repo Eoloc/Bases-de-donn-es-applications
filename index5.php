@@ -132,6 +132,7 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
 //PARTIE 5
 $app->get("/api/games/{id}/comments",function (Request $req,  Response $res, $args = []){
     $id =$args['id'];
+	echo "lol";
 });
 
 //PARTIE 7
@@ -154,8 +155,20 @@ $app->get("/api/characters/{id}", function (Request $req,  Response $res, $args 
     }
 })->setName("Commentaires");
 
-try {
-    $app->run();
-} catch (Throwable $e) {
-    echo "<pre>$e</pre>";
+
+/**
+$app->post("api/games/{id}/commentaire",function(Request $req, Response $res, $args=[]){
+//$id=$args['id'];
+//$jsonData = file_get_contents("php://input");
+//$decode=json_decode($jsonData);
+//$email=$decode->{'email'};
+//$titre=$decode->{'titre'};
+//$commentaire=$decode->{'commentaire'};
+echo "lol";
+});
+*/
+try{
+	$app->run();
+}catch (Throwable $e){
+	echo "<pre>$e</pre>";
 }
