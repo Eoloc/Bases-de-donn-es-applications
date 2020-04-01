@@ -4,6 +4,9 @@ use bdd\models\game;
 use bdd\models\company;
 use bdd\models\genre;
 use bdd\models\platform;
+use bdd\models\comment;
+use bdd\models\comment2user;
+use bdd\models\comment2game;
 use Illuminate\Database\Capsule\Manager as DB;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
@@ -175,10 +178,33 @@ $app->get('/api/games', function (Request $req,  Response $res, $args = []) {
      */
 })->setName('Question2');
 
-//PARTIE 5
-$app->get("/api/games/{id}/comments",function (Request $req,  Response $res, $args = []){
+//PARTIE 8
+$app->post("/api/games/{id}/comments",function (Request $req,  Response $res, $args = []){
     $id =$args['id'];
 	echo "lol";
+	$jsonData = file_get_contents("php://input");
+	var_dump($jsonData);
+	$decode=json_decode($jsonData);
+        $email=$decode->{'email'};
+	$titre=$decode->{'titre'};
+        $commentaire=$decode->{'commentaire'};
+	var_dump($decode);
+
+	$c=new Comment();
+	$c->title=$titre;
+	$c->content=$commentaire;
+	//$c->save();
+
+
+	$c2u=new Comment2user();
+	$c2u->comment_id=$c->id;
+	$c2u->user_id=$id;
+	//$c2u->save();
+
+	$c2g=new Comment2game();
+	$c2g->comment_id=$c->id;
+	$c2g->game_id=$id;
+	//$c2g->save();
 });
 
 // PARTIE 6
